@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <graphics.h>
+#include <dos.h>
 
-int cabeza[42] = {
+int cabeza[44] = {
 477, 320,477, 311
 ,473, 299,468, 291
 ,463, 284,455, 278
@@ -14,7 +15,7 @@ int cabeza[42] = {
 ,409, 270,394, 274
 ,382, 280,372, 289
 ,364, 299,360, 310
-,360, 320	};
+,360, 320,477,320     };
 
 
 int cuerpezito[64] = {
@@ -33,7 +34,7 @@ int cuerpezito[64] = {
 ,473, 411,477, 408
 ,481, 404,483, 400
 ,483, 396,480, 391
-,464, 374,471, 349	 };
+,464, 374,471, 349    };
 
 
 int brazito[44] = {
@@ -47,7 +48,16 @@ int brazito[44] = {
 ,454, 402,463, 409
 ,472, 411,479, 407
 ,483, 400,482, 392
-,473, 383,465, 373 	 };
+,473, 383,465, 374 	 };
+
+
+int hoja[22] = {
+586, 422,592, 421
+,598, 418,603, 413
+,607, 407,608, 399
+,601, 399,594, 402
+,588, 409,586, 416
+,586, 422  	};
 
 
 int manzana[88] = {
@@ -75,13 +85,32 @@ int manzana[88] = {
 ,620, 439,626, 432  	};
 
 
-int hoja[22] = {
-586, 422,592, 421
-,598, 418,603, 413
-,607, 407,608, 399
-,601, 399,594, 402
-,588, 409,586, 416
-,586, 422  	};
+int first_drop[24] = {
+593, 400,593, 395
+,594, 392,598, 389
+,600, 389,606, 390
+,607, 392,604, 392
+,601, 392,597, 394
+,594, 396,593, 400  	};
+
+
+int second_drop[18] = {
+579, 405,577, 400
+,571, 399,570, 399
+,567, 401,565, 408
+,567, 409,574, 405
+,579, 405  	};
+
+
+int third_drop[18] = {
+583, 414,582, 410
+,579, 408,577, 408
+,574, 409,571, 414
+,576, 415,582, 415
+,584, 414  	};
+
+
+
 
 int huge highlevel(void)
 {
@@ -92,11 +121,32 @@ void main(void)
 {
 	int grafico=DETECT, modo;
 
-installuserdriver("SVGA256",highlevel);
-initgraph(&grafico,&modo,"");
-cleardevice();
+	installuserdriver("SVGA256",highlevel);
+	initgraph(&grafico,&modo,"");
+	cleardevice();
 
-drawpoly(22,cabeza);
+	/*Android*/
+	setcolor(10);
+	fillpoly(22,cabeza);
 
+	drawpoly(32,cuerpezito);
+	drawpoly(22,brazito);
+
+
+	/*Apple*/
+	setcolor(53);
+	drawpoly(11,hoja);
+	drawpoly(44,manzana);
+
+	/*gotas de la manzana*/
+	setcolor(53);
+	drawpoly(12,first_drop);		/*primera gota del pipi*/
+	drawpoly(9,second_drop);	/*segunda gota del pipi*/
+	drawpoly(9,third_drop);		/*tercera gota del pipi*/
+
+	/* Ojito */
+	setcolor(10);
+    fillellipse(450,297,5,5);
+
+	getch();
 }
-
