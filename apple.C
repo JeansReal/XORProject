@@ -1,152 +1,91 @@
-#include <conio.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <graphics.h>
-#include <dos.h>
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+/*      Profesor>> Grevin Silva.            */
+***REMOVED***
 
-int cabeza[44] = {
-477, 320,477, 311
-,473, 299,468, 291
-,463, 284,455, 278
-,449, 275,457, 261
-,457, 257,453, 256
-,445, 273,437, 271
-,429, 268,419, 268
-,409, 270,394, 274
-,382, 280,372, 289
-,364, 299,360, 310
-,360, 320,477,320     };
+/* Ficheros de Cabezera o Librerias */
+#include <StdIo.h>      /* Funciones para salida de datos>> printf() */
+#include <Conio.h>      /* Validacion de Control de Teclas>> kbhit() */
+#include <Graphics.h>   /* Para Usar El Entorno Grafico de Borland */ 
+#include <Dos.h>        /* Animaciones>> delay() , sleep() , sound() , nosound() */
+#include <Alloc.h>      /* Asignacion de Memoria Dinamica>> malloc() , free() */
+#include <StdLib.h>     /* Comandos del sistema>> system() , abort() , exit() */
 
 
-int cuerpezito[64] = {
-470, 349,476, 325
-,361, 325,361, 353
-,361, 394,361, 411
-,365, 417,373, 418
-,385, 419,385, 448
-,386, 454,396, 458
-,407, 454,410, 445
-,410, 419,428, 419
-,429, 447,431, 455
-,439, 459,448, 457
-,453, 450,453, 417
-,457, 405,463, 410
-,473, 411,477, 408
-,481, 404,483, 400
-,483, 396,480, 391
-,464, 374,471, 349    };
+/* Libreria Personalizada */
+#include "Coor.h"       /* Coordenadas */
+#include "Modo.h"       /* Modo Grafico */
+#include "Macro.h"      /* Macros */
 
 
-int brazito[44] = {
-465, 374,456, 365
-,447, 355,441, 348
-,436, 347,431, 347
-,426, 348,421, 352
-,419, 358,419, 364
-,422, 368,428, 375
-,437, 384,445, 391
-,454, 402,463, 409
-,472, 411,479, 407
-,483, 400,482, 392
-,473, 383,465, 374 	 };
+/* Funciones Prototipo */
+/* Funciones Para El Modo Grafico */
+void InitGraph(void);
+int huge HighLevelXGA(void);
 
-
-int hoja[22] = {
-586, 422,592, 421
-,598, 418,603, 413
-,607, 407,608, 399
-,601, 399,594, 402
-,588, 409,586, 416
-,586, 422  	};
-
-
-int manzana[88] = {
-626, 432,622, 428
-,616, 424,610, 423
-,604, 422,598, 424
-,592, 426,589, 428
-,584, 428,577, 426
-,574, 424,568, 423
-,561, 423,557, 425
-,551, 429,547, 434
-,543, 438,541, 445
-,540, 453,541, 465
-,545, 476,550, 485
-,556, 495,563, 501
-,570, 502,576, 500
-,579, 498,586, 498
-,593, 499,602, 501
-,609, 501,618, 495
-,624, 488,630, 474
-,625, 473,622, 470
-,618, 467,616, 462
-,615, 457,615, 451
-,615, 446,616, 442
-,620, 439,626, 432  	};
-
-
-int first_drop[24] = {
-593, 400,593, 395
-,594, 392,598, 389
-,600, 389,606, 390
-,607, 392,604, 392
-,601, 392,597, 394
-,594, 396,593, 400  	};
-
-
-int second_drop[18] = {
-579, 405,577, 400
-,571, 399,570, 399
-,567, 401,565, 408
-,567, 409,574, 405
-,579, 405  	};
-
-
-int third_drop[18] = {
-583, 414,582, 410
-,579, 408,577, 408
-,574, 409,571, 414
-,576, 415,582, 415
-,584, 414  	};
-
-
-
-
-int huge highlevel(void)
+/* Funcion para Precision de Graficos */
+#include <Mouse.h>
+void Mouse(void)
 {
-return 4;
+    mver();
+    mlimit(1,1,getmaxx()+1,getmaxy()+1,1);
+    do {
+        gotoxy(1,1) , printf("X=%3d\nY=%3d", mxpos(1), mypos(1));
+        putpixel(mxpos(1), mypos(1), 15);
+    } while(!kbhit());
 }
 
+/** Cuerpo Principal **/
 void main(void)
 {
-	int grafico=DETECT, modo;
+    int x=0, y=0;
 
-	installuserdriver("SVGA256",highlevel);
-	initgraph(&grafico,&modo,"");
-	cleardevice();
+    InitGraph();
 
-	/*Android*/
-	setcolor(10);
-	fillpoly(22,cabeza);
+    /* Android */
+    setcolor(10);
+    fillpoly(22,cabeza);
+    fillpoly(32,cuerpezito);
+    fillpoly(22,brazito);
 
-	drawpoly(32,cuerpezito);
-	drawpoly(22,brazito);
+    /* Apple */
+    setcolor(53);
+    drawpoly(11,hoja);
+    drawpoly(44,manzana);
+    
+    /* gotas de la manzana */
+    setcolor(53);
+    drawpoly(12,first_drop);    /*primera gota del pipi*/
+    drawpoly(9,second_drop);    /*segunda gota del pipi*/
+    drawpoly(9,third_drop);     /*tercera gota del pipi*/
 
-
-	/*Apple*/
-	setcolor(53);
-	drawpoly(11,hoja);
-	drawpoly(44,manzana);
-
-	/*gotas de la manzana*/
-	setcolor(53);
-	drawpoly(12,first_drop);		/*primera gota del pipi*/
-	drawpoly(9,second_drop);	/*segunda gota del pipi*/
-	drawpoly(9,third_drop);		/*tercera gota del pipi*/
-
-	/* Ojito */
-	setcolor(10);
+    /* Ojito */
+    setcolor(10);
     fillellipse(450,297,5,5);
 
-	getch();
-}
+
+    setcolor(42);
+    do {
+        arc(520, 415, 0, 130, 60);
+        arc(520, 416, 0, 130, 60);
+        arc(520, 417, 0, 130, 60);
+        arc(520, 418, 0, 130, 60);
+
+        delay(50);
+        x++;
+
+        if (x<30)
+            y--;
+        else
+            y++;
+
+        setfillstyle(1,0);
+        bar(480+x, 370+y, 495+x, 380+y);
+
+    } while (x!=100);
+
+    getch();
+}
