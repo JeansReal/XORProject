@@ -63,7 +63,7 @@ void main(void)
 
     InitGraph();
 
-    /*Presentacion();*/
+    Presentacion();
 
     Linea(Continua, Fina, 42);
     rectangle(100,50,924,648);
