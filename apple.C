@@ -51,20 +51,6 @@ void Mouse(void)
 #define Pausa   getch() , abort() ;
 
 
-void DrawCircle(int x, int y, int r)
-{
-      static const double PI = 3.1415926535;
-      double i, angle, x1, y1;
- 
-      for(i = 0; i < 360; i += 0.1)
-      {
-            angle = i;
-            x1 = r * cos(angle * PI / 180);
-            y1 = r * sin(angle * PI / 180);
-            PixelXor(x + x1, y + y1);
-      }
-}
-
 /** Cuerpo Principal **/
 void main(void)
 {
