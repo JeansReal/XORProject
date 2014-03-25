@@ -2,7 +2,7 @@
 
 /* Declaracion de Nuevos Tipos de Datos */
 typedef int Graph;
-typedef short Iteracion, ControlEje, Color, Bandera;
+typedef unsigned short Iteracion, ControlEje, Color, Bandera, Direccional;
 
 /* Enumeraciones Para Control de Funciones y Validaciones */
 enum Boolean { True, False };
@@ -13,12 +13,12 @@ enum Grosor_De_Linea { Fina, Gruesa = 3 };
 
 /* Enumeracion Para el Macro Relleno>> Que Representa Funcion setfillstyle(Trama,Color)*/
 enum Tramas_De_Relleno {
-    Vacio, Solido, 
-    L_Hor, 
-    L_Dia, L_Dia_G,
-    L_Dia_I_G, L_Dia_I,
+    Vacio, Solido,
+    Ln_Hor,
+    Ln_Dia, Ln_Dia_G,
+    Ln_Dia_I_G, Ln_Dia_I,
     Cuadricula, X_Cuadricula,
-    Intervalo, 
+    Intervalo,
     Punteado, Punteado_C
 };
 
@@ -34,7 +34,7 @@ void InitGraph(void)
     /*detectgraph(&driver, &mode);*/
 
     /* Instalar Driver Para el Modo Grafico de Alto Nivel */
-    installuserdriver("SVGA256", HighLevelXGA());
+    installuserdriver("SVGA256", HighLevelXGA);
     initgraph(&driver, &mode, "");
 
     /* Validamos Si el Modo Grafico Inicio Sin Problemas */

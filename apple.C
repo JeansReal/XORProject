@@ -3,8 +3,11 @@
 /*                                          */
 /*                                          */
 /*                                          */
-/*      Profesor>> Grevin Silva.            */
+/*        Profesor>> Grevin Silva.          */
 /********************************************/
+
+/* No Incluir Librerias Mas de 1 Vez */
+#pragma
 
 /* Ficheros de Cabezera o Librerias */
 #include <StdIo.h>      /* Funciones para salida de datos>> printf() */
@@ -14,17 +17,24 @@
 #include <Alloc.h>      /* Asignacion de Memoria Dinamica>> malloc() , free() */
 #include <StdLib.h>     /* Comandos del sistema>> system() , abort() , exit() */
 
+#include <math.h>
 
 /* Libreria Personalizada */
-#include "Coor.h"       /* Coordenadas */
-#include "Modo.h"       /* Modo Grafico */
-#include "Macro.h"      /* Macros */
+#include "Apple/Coor.h"       /* Coordenadas */
+#include "Apple/Modo.h"       /* Modo Grafico */
+#include "Apple/Macro.h"      /* Macros */
+#include "Apple/Screens.h"    /* Pantallas */
 
 
 /* Funciones Prototipo */
+
 /* Funciones Para El Modo Grafico */
 void InitGraph(void);
 int huge HighLevelXGA(void);
+
+/* Funciones Para Mostrar las Pantallas */
+void Presentacion(void);
+
 
 /* Funcion para Precision de Graficos */
 #include <Mouse.h>
@@ -37,55 +47,69 @@ void Mouse(void)
         putpixel(mxpos(1), mypos(1), 15);
     } while(!kbhit());
 }
+/* Macro Para Realizar "Depuracion" */
+#define Pausa   getch() , abort() ;
+
+
+void DrawCircle(int x, int y, int r)
+{
+      static const double PI = 3.1415926535;
+      double i, angle, x1, y1;
+ 
+      for(i = 0; i < 360; i += 0.1)
+      {
+            angle = i;
+            x1 = r * cos(angle * PI / 180);
+            y1 = r * sin(angle * PI / 180);
+            PixelXor(x + x1, y + y1);
+      }
+}
 
 /** Cuerpo Principal **/
 void main(void)
 {
-    int x=0, y=0;
+    Direccional Tecla=0;
+
+    int x=500,y=350;
+    unsigned short largo=20;
+    int i=0;
+
 
     InitGraph();
 
-    /* Android */
-    setcolor(10);
-    fillpoly(22,cabeza);
-    fillpoly(32,cuerpezito);
-    fillpoly(22,brazito);
+    /*Presentacion();*/
 
-    /* Apple */
-    setcolor(53);
-    drawpoly(11,hoja);
-    drawpoly(44,manzana);
-    
-    /* gotas de la manzana */
-    setcolor(53);
-    drawpoly(12,first_drop);    /*primera gota del pipi*/
-    drawpoly(9,second_drop);    /*segunda gota del pipi*/
-    drawpoly(9,third_drop);     /*tercera gota del pipi*/
-
-    /* Ojito */
-    setcolor(10);
-    fillellipse(450,297,5,5);
+    Linea(Continua, Fina, 42);
+    rectangle(100,50,924,648);
 
 
-    setcolor(42);
     do {
-        arc(520, 415, 0, 130, 60);
-        arc(520, 416, 0, 130, 60);
-        arc(520, 417, 0, 130, 60);
-        arc(520, 418, 0, 130, 60);
+        Tecla=getch();
 
-        delay(50);
-        x++;
+        switch(Tecla)
+        {
+            case ARRIBA:    --y;     break;
+            case ABAJO:     ++y;     break;
+            case DERECHA:   ++x;     break;
+            case IZQUIERDA: --x;     break;
+            case MAS:       ++largo; break;
+            case MENOS:     --largo; break;
+            case ESC:       exit(0);
+        }
 
-        if (x<30)
-            y--;
-        else
-            y++;
 
-        setfillstyle(1,0);
-        bar(480+x, 370+y, 495+x, 380+y);
+        DrawCircle(x, y, largo);
 
-    } while (x!=100);
 
-    getch();
-}
+    } while (False);
+}
+
+void unalinea(int x,int y, int i, int largo)
+{
+    PixelXor(x, y);     /* Centro */
+    for (i = 0; i < largo; ++i)
+    {
+        PixelXor(x + i, y); /* Derecha */
+        PixelXor(x - i, y); /* Izquierda */
+    }
+}
