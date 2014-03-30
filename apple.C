@@ -7,23 +7,22 @@
 ***REMOVED***
 
 /* No Incluir Librerias Mas de 1 Vez */
-#pragma
+#pragma once
 
 /* Ficheros de Cabezera o Librerias */
 #include <StdIo.h>      /* Funciones para salida de datos>> printf() */
 #include <Conio.h>      /* Validacion de Control de Teclas>> kbhit() */
 #include <Graphics.h>   /* Para Usar El Entorno Grafico de Borland */ 
-#include <Dos.h>        /* Animaciones>> delay() , sleep() , sound() , nosound() */
-#include <Alloc.h>      /* Asignacion de Memoria Dinamica>> malloc() , free() */
+/*#include <Dos.h>        /* Animaciones>> delay() , sleep() , sound() , nosound() */
+/*#include <Alloc.h>      /* Asignacion de Memoria Dinamica>> malloc() , free() */
 #include <StdLib.h>     /* Comandos del sistema>> system() , abort() , exit() */
 
-#include <math.h>
-
 /* Libreria Personalizada */
-#include "Apple/Coor.h"       /* Coordenadas */
+/*#include "Apple/Coor.h"       /* Coordenadas */
 #include "Apple/Modo.h"       /* Modo Grafico */
 #include "Apple/Macro.h"      /* Macros */
-#include "Apple/Screens.h"    /* Pantallas */
+/*#include "Apple/Screens.h"    /* Pantallas */
+#include "Apple/XorFunc.h"    /* Funcions XOR */
 
 
 /* Funciones Prototipo */
@@ -35,6 +34,11 @@ int huge HighLevelXGA(void);
 /* Funciones Para Mostrar las Pantallas */
 void Presentacion(void);
 
+/* Funciones Para Figuras en Modo XOR */
+void DrawCircle(ControlEje x, ControlEje y, short radio);
+void DrawLine(ControlEje x, ControlEje y, unsigned short largo);
+void DrawTriangle(ControlEje x, ControlEje y, unsigned short Perimetro);
+void DrawRectangle(ControlEje x, ControlEje y, unsigned short Perimetro);
 
 /* Funcion para Precision de Graficos */
 #include <Mouse.h>
@@ -43,13 +47,14 @@ void Mouse(void)
     mver();
     mlimit(1,1,getmaxx()+1,getmaxy()+1,1);
     do {
-        gotoxy(1,1) , printf("X=%3d\nY=%3d", mxpos(1), mypos(1));
+		gotoxy(1,1) , printf("X=%3d\nY=%3d", mxpos(1), mypos(1));
         putpixel(mxpos(1), mypos(1), 15);
     } while(!kbhit());
 }
 /* Macro Para Realizar "Depuracion" */
 #define Pausa   getch() , abort() ;
 
+void DrawEllipse(ControlEje originX, ControlEje originY, short radio);
 
 /** Cuerpo Principal **/
 void main(void)
@@ -57,17 +62,11 @@ void main(void)
     Direccional Tecla=0;
 
     int x=500,y=350;
-    unsigned short largo=20;
-    int i=0;
-
+    unsigned short largo=60;
 
     InitGraph();
 
     /*Presentacion();*/
-
-    Linea(Continua, Fina, 42);
-    rectangle(100,50,924,648);
-
 
     do {
         Tecla=getch();
@@ -83,19 +82,32 @@ void main(void)
             case ESC:       exit(0);
         }
 
-
-        DrawCircle(x, y, largo);
-
+        DrawEllipse(x, y, largo);
 
     } while (False);
 }
 
-void unalinea(int x,int y, int i, int largo)
+void DrawEllipse(ControlEje x, ControlEje y, short radio)
 {
-    PixelXor(x, y);     /* Centro */
-    for (i = 0; i < largo; ++i)
+    short i = 0;
+    short d = radio;
+
+    for (; i < radio; i++)
     {
-        PixelXor(x + i, y); /* Derecha */
-        PixelXor(x - i, y); /* Izquierda */
+        if (d < 0)
+            d += (2 * i);
+        else {
+            radio-=4;
+            d += (2 * i) - (2 * radio);
+        }
+
+        PixelXor(x + i, y + radio);
+        PixelXor(x - radio, y - i);
+        PixelXor(x + radio, y - i);
+        PixelXor(x - radio, y + i);
+        PixelXor(x + radio, y + i);
+        PixelXor(x - i, y - radio);
+        PixelXor(x + i, y - radio);
+        PixelXor(x - i, y + radio);
     }
 }

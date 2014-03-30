@@ -23,11 +23,10 @@
 #define RESMAXCOLORS (getmaxcolor() + 1) / 2
 
 /* Macro que Retorna el Color XOR de la Posicion */
-#define ColorXor(x, y) RESMAXCOLORS ^ getpixel(x, y)
+#define ColorXor(x, y) 128 ^ getpixel(x, y) 				/* Refactorizando para Optimizar Velocidad */
 
 /* Macro Para Pintar Pixel en XOR */
-#define PixelXor(x, y) putpixel(x, y, ColorXor(x, y))
-
+#define PixelXor(x, y) putpixel(x, y, 128 ^ getpixel(x, y))	/* Refactorizando Para Obtener Mas Velocidad */
 
 /* Macro Para Determinar Columnas de Arreglos Unidimensionales Dinamicos */
 #define TamArray(Arreglo)              sizeof(Arreglo)/sizeof(Arreglo[0])
