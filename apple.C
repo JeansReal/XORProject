@@ -25,6 +25,11 @@
 #include "Apple/Macro.h"      /* Macros */
 #include "Apple/Screens.h"    /* Pantallas */
 
+#include <land1.h> /*image No 1*/
+#include <board.h> /*board showing image No 1 */
+
+void landscape1();
+void board();
 
 /* Funciones Prototipo */
 
@@ -65,10 +70,8 @@ void main(void)
 
     Presentacion();
 
-    Linea(Continua, Fina, 42);
-    rectangle(100,50,924,648);
-
-
+    
+/*
     do {
         Tecla=getch();
 
@@ -84,10 +87,16 @@ void main(void)
         }
 
 
-        DrawCircle(x, y, largo);
+    } while (False);*/
+
+    getch();
 
 
-    } while (False);
+   board();
+
+
+
+
 }
 
 void unalinea(int x,int y, int i, int largo)
