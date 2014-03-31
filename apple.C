@@ -22,8 +22,18 @@
 /*#include "Apple/Coor.h"       /* Coordenadas */
 #include "Apple/Modo.h"       /* Modo Grafico */
 #include "Apple/Macro.h"      /* Macros */
+<<<<<<< HEAD
 /*#include "Apple/Screens.h"    /* Pantallas */
 #include "Apple/XorFunc.h"    /* Funciones XOR */
+=======
+#include "Apple/Screens.h"    /* Pantallas */
+
+#include <land1.h> /*image No 1*/
+#include <board.h> /*board showing image No 1 */
+
+void landscape1();
+void board();
+>>>>>>> origin/KristelBranch
 
 /* Funciones Prototipo */
 
@@ -64,8 +74,15 @@ void main(void)
 
     InitGraph();
 
+<<<<<<< HEAD
     /*Presentacion();*/
 
+=======
+    Presentacion();
+
+    
+/*
+>>>>>>> origin/KristelBranch
     do {
         DrawCursor(x, y);
 
@@ -78,6 +95,7 @@ void main(void)
             case MAS:       ++largo; break;
             case MENOS:     --largo; break;
 
+<<<<<<< HEAD
             case X:
                 _xorMode = (_xorMode) ? False : True ;
             break;
@@ -86,4 +104,16 @@ void main(void)
         }
 
     } while (True);
+=======
+    } while (False);*/
+
+    getch();
+
+
+   board();
+  
+
+
+
+>>>>>>> origin/KristelBranch
 }
