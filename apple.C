@@ -93,18 +93,8 @@ void main(void)
 
 
    board();
+  
 
 
 
-
-}
-
-void unalinea(int x,int y, int i, int largo)
-{
-    PixelXor(x, y);     /* Centro */
-    for (i = 0; i < largo; ++i)
-    {
-        PixelXor(x + i, y); /* Derecha */
-        PixelXor(x - i, y); /* Izquierda */
-    }
 }
