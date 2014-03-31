@@ -1,5 +1,22 @@
 /* Libreria que Contiene Funciones Gracias Para Figuras en Modo XOR */
 
+/* Midpoint Algorithm Applied to Generate Circle and Ellipse */
+ 
+/* ToDo:
+    * Mejorar Nombres de Variables x=originX, y=originY, i=xMove, dm=Diameter....
+    * Cambiar Tipos de Datos en Parametros, Pero Antes Validar Todos los Argumentos
+*/
+
+/* Cursor XOR */
+void DrawCursor(ControlEje x, ControlEje y)
+{
+    PixelXor(x, y);      /* Centro */
+    PixelXor(x, y - 10); /* Arriba */
+    PixelXor(x + 10, y); /* Derecha */
+    PixelXor(x, y + 10); /* Abajo */
+    PixelXor(x - 10, y); /* Izquierda */
+}
+
 /* Circulo XOR */
 void DrawCircle(ControlEje x, ControlEje y, short radio)
 {
@@ -8,10 +25,11 @@ void DrawCircle(ControlEje x, ControlEje y, short radio)
     for (; i < radio; i++)
     {
         if (dm < 0)
-            dm += (2 * i + 1);
+            dm += 2 * i + 1;
         else {
             radio--;
-            dm += (2 * i) - (2 * radio);
+            /* dm += (2 * i) - (2 * radio); Calculo Rapido, Perdida de Precision en Valores */
+            dm += 2 * (i - radio) + 1;      /* Calculo Algo lento, Mejoria De Precision Considerable */
         }
 
         PixelXor(x + i, y + radio);
@@ -39,7 +57,7 @@ void DrawLine(ControlEje x, ControlEje y, unsigned short largo)
     }
 }
 
-/* Triangulo XOR */
+/* Poligono: Triangulo XOR */
 void DrawTriangle(ControlEje x, ControlEje y, unsigned short Perimetro)
 {
     Iteracion i=0;
@@ -72,31 +90,52 @@ void DrawRectangle(ControlEje x, ControlEje y, unsigned short Perimetro)
     DrawLine(x, y + (i - 1), Perimetro); /* Abajo */
 }
 
-/* Ellipse XOR 
-
-for (int y = -radio; y < radio; ++y)
+/* Ellipse XOR */
+void DrawEllipse(ControlEje x, ControlEje y, short xRadio, short yRadio)
 {
-    for (int x = -radio; x <= radio; ++i)
+    long xRadioPow = pow(xRadio, 2);
+    long yRadioPow = pow(yRadio, 2);
+
+    long xRadioPowDouble = 2 * xRadioPow;
+    long yRadioPowDouble = 2 * yRadioPow;
+
+    long dmX = 0;
+    long dmY = xRadioPowDouble * yRadio;
+    long dm = (long) (0.5 + yRadioPow - (xRadioPow * yRadio) + (0.25 * xRadioPow));
+
+    for (xRadio = 0; dmX < dmY; ++xRadio, dmX += yRadioPowDouble)
     {
-        if (x*x+y*y <= radio*radio)
-        {
-            putpixel(ox+x,oy+y);
+        if (dm < 0)
+            dm += yRadioPow + dmX;
+        else {
+            yRadio--;
+            dmY -= xRadioPowDouble;
+            dm += yRadioPow + dmX - dmY;
         }
+
+        PixelXor(x + xRadio, y + yRadio);
+        PixelXor(x - xRadio, y + yRadio);
+        PixelXor(x + xRadio, y - yRadio);
+        PixelXor(x - xRadio, y - yRadio);
+    }
+
+    /* Calculando Cierre de Ellipse */
+    dm = (long)(0.5 + yRadioPow * (xRadio + 0.5) * (xRadio + 0.5) +
+                      xRadioPow * (yRadio - 1) * (yRadio - 1) - xRadioPow * yRadioPow);
+
+    for (; yRadio > 0; --yRadio, dmY -= xRadioPowDouble)
+    {
+        if (dm > 0)
+                dm += xRadioPow - dmY;
+        else {
+            xRadio++;
+            dmX += yRadioPowDouble;
+            dm += xRadioPow - dmY + dmX;
+        }
+
+        PixelXor(x + xRadio, y + yRadio);
+        PixelXor(x - xRadio, y + yRadio);
+        PixelXor(x + xRadio, y - yRadio);
+        PixelXor(x - xRadio, y - yRadio);
     }
 }
-
-
-
-for (int y = -height; y < height; ++y)
-{
-    for (int x = -width; x <= width; ++i)
-    {
-        if (x*x*height*height + y*y*width*width <= height*height*width*width)
-        {
-            putpixel(ox+x,oy+y);
-        }
-    }
-}
-
-
-/* Poligono XOR */

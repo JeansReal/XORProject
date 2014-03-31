@@ -16,14 +16,14 @@
 /*#include <Dos.h>        /* Animaciones>> delay() , sleep() , sound() , nosound() */
 /*#include <Alloc.h>      /* Asignacion de Memoria Dinamica>> malloc() , free() */
 #include <StdLib.h>     /* Comandos del sistema>> system() , abort() , exit() */
+#include <Math.h>       /* Funciones para Calculos de Figuras Geometricas>> DrawEllipse() */
 
 /* Libreria Personalizada */
 /*#include "Apple/Coor.h"       /* Coordenadas */
 #include "Apple/Modo.h"       /* Modo Grafico */
 #include "Apple/Macro.h"      /* Macros */
 /*#include "Apple/Screens.h"    /* Pantallas */
-#include "Apple/XorFunc.h"    /* Funcions XOR */
-
+#include "Apple/XorFunc.h"    /* Funciones XOR */
 
 /* Funciones Prototipo */
 
@@ -35,10 +35,12 @@ int huge HighLevelXGA(void);
 void Presentacion(void);
 
 /* Funciones Para Figuras en Modo XOR */
+void DrawCursor(ControlEje x, ControlEje y);
 void DrawCircle(ControlEje x, ControlEje y, short radio);
 void DrawLine(ControlEje x, ControlEje y, unsigned short largo);
 void DrawTriangle(ControlEje x, ControlEje y, unsigned short Perimetro);
 void DrawRectangle(ControlEje x, ControlEje y, unsigned short Perimetro);
+void DrawEllipse(ControlEje x, ControlEje y, short xRadio, short yRadio);
 
 /* Funcion para Precision de Graficos */
 #include <Mouse.h>
@@ -54,24 +56,20 @@ void Mouse(void)
 /* Macro Para Realizar "Depuracion" */
 #define Pausa   getch() , abort() ;
 
-void DrawEllipse(ControlEje originX, ControlEje originY, short radio);
-
 /** Cuerpo Principal **/
 void main(void)
 {
-    Direccional Tecla=0;
-
-    int x=500,y=350;
-    unsigned short largo=60;
+    ControlEje x=400, y=300;
+    unsigned short largo=100;
 
     InitGraph();
 
     /*Presentacion();*/
 
     do {
-        Tecla=getch();
+        DrawCursor(x, y);
 
-        switch(Tecla)
+        switch(getch())
         {
             case ARRIBA:    --y;     break;
             case ABAJO:     ++y;     break;
@@ -79,35 +77,13 @@ void main(void)
             case IZQUIERDA: --x;     break;
             case MAS:       ++largo; break;
             case MENOS:     --largo; break;
-            case ESC:       exit(0);
+
+            case X:
+                _xorMode = (_xorMode) ? False : True ;
+            break;
+
+            case 97:    exit(0);
         }
 
-        DrawEllipse(x, y, largo);
-
-    } while (False);
-}
-
-void DrawEllipse(ControlEje x, ControlEje y, short radio)
-{
-    short i = 0;
-    short d = radio;
-
-    for (; i < radio; i++)
-    {
-        if (d < 0)
-            d += (2 * i);
-        else {
-            radio-=4;
-            d += (2 * i) - (2 * radio);
-        }
-
-        PixelXor(x + i, y + radio);
-        PixelXor(x - radio, y - i);
-        PixelXor(x + radio, y - i);
-        PixelXor(x - radio, y + i);
-        PixelXor(x + radio, y + i);
-        PixelXor(x - i, y - radio);
-        PixelXor(x + i, y - radio);
-        PixelXor(x - i, y + radio);
-    }
+    } while (True);
 }
