@@ -2,10 +2,10 @@
 
 /* Declaracion de Nuevos Tipos de Datos */
 typedef int Graph;
-typedef unsigned short Iteracion, ControlEje, Color, Bandera, Direccional;
+typedef unsigned short Iteracion, ControlEje, Boolean, Direccional;
 
 /* Enumeraciones Para Control de Funciones y Validaciones */
-enum Boolean { True, False };
+enum Boolean { False, True };
 
 /* Enumeracion Para el Macro Linea>> Que Representa Funcion setlinestyle(Estilo,Trama,Grosor) */
 enum Estilos_De_Linea { Continua, Punteada, Centrada, Guiones };
@@ -21,6 +21,9 @@ enum Tramas_De_Relleno {
     Intervalo,
     Punteado, Punteado_C
 };
+
+/* Variables Globales */
+Boolean _xorMode = True;    /* Variable Para Controlar Modo XOR */
 
 /*Iniciando Modo Grafico 1024*768 A>> 256 Colores*/
 int huge HighLevelXGA(void)

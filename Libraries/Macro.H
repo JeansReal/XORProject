@@ -13,23 +13,26 @@
 #define ESC     27
 #define DELETE  8
 #define TAB     9
+#define X       120
 /* Teclas de Manejo de Hule */
-#define MAS 	43
-#define MENOS	45
+#define MAS     43
+#define MENOS   45
+/* Color XOR Default */
+#define Color   42  /* Naranja en XGA */
 
 /* Macros Para Funcion XOR */
 
-/* Macro Adaptable a la Cantidad de colores de la Resolucion */
-#define RESMAXCOLORS (getmaxcolor() + 1) / 2
+/* Macro Adaptable a la Cantidad de Colores de la Resolucion */
+#define RESMAXCOLORS    (getmaxcolor() + 1) / 2
 
 /* Macro que Retorna el Color XOR de la Posicion */
-#define ColorXor(x, y) 128 ^ getpixel(x, y) 				/* Refactorizando para Optimizar Velocidad */
+#define ColorXor(x, y)  Color ^ getpixel(x, y)      /* Refactorizando para Optimizar Velocidad */
 
-/* Macro Para Pintar Pixel en XOR */
-#define PixelXor(x, y) putpixel(x, y, 128 ^ getpixel(x, y))	/* Refactorizando Para Obtener Mas Velocidad */
+/* Macro Para Pintar Pixel en XOR */            /* Refactorizando Para Obtener Mas Velocidad */
+#define PixelXor(x, y)  (_xorMode) ? putpixel(x, y, Color ^ getpixel(x, y)) : putpixel(x, y, Color) ;
 
 /* Macro Para Determinar Columnas de Arreglos Unidimensionales Dinamicos */
-#define TamArray(Arreglo)              sizeof(Arreglo)/sizeof(Arreglo[0])
+#define TamArray(Array) sizeof(Array)/sizeof(Array[0])
 
 
 /* Macros Para Funciones De Estilo */
@@ -38,8 +41,8 @@
 
 
 /* Macro Para Pintar, Trazar y Rellenar Arreglos de Graficos en Coordenadas */
-#define Fill(Array)                                         fillpoly(TamArray(Array)/2, Array)
-#define Draw(Array)                                         drawpoly(TamArray(Array)/2, Array)
-#define PintarFigura(Tra, Col_R, Est, Gro, Col_L, Array)   	Relleno(Tra, Col_R), Linea(Est, Gro, Col_L), Fill(Array)
-#define TrazarLineas(Estilo, Grosor, Color, Array)         	Linea(Estilo, Grosor, Color), Draw(Array)
+#define Fill(Array)                                         fillpoly(TamArray(Array) / 2, Array)
+#define Draw(Array)                                         drawpoly(TamArray(Array) / 2, Array)
+#define PintarFigura(Tra, Col_R, Est, Gro, Col_L, Array)    Relleno(Tra, Col_R), Linea(Est, Gro, Col_L), Fill(Array)
+#define TrazarLineas(Estilo, Grosor, Color, Array)          Linea(Estilo, Grosor, Color), Draw(Array)
 #define Inundar(Trama, Color, x, y, Borde)                  Relleno(Trama, Color), floodfill(x, y, Borde)
