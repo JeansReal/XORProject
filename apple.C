@@ -17,23 +17,15 @@
 /*#include <Alloc.h>      /* Asignacion de Memoria Dinamica>> malloc() , free() */
 #include <StdLib.h>     /* Comandos del sistema>> system() , abort() , exit() */
 #include <Math.h>       /* Funciones para Calculos de Figuras Geometricas>> DrawEllipse() */
+#include <Dos.h>        /* Funcion para Animacion>> delay() */
+
 
 /* Libreria Personalizada */
-/*#include "Apple/Coor.h"       /* Coordenadas */
+#include "Apple/Coor.h"       /* Coordenadas */
 #include "Apple/Modo.h"       /* Modo Grafico */
 #include "Apple/Macro.h"      /* Macros */
-<<<<<<< HEAD
-/*#include "Apple/Screens.h"    /* Pantallas */
-#include "Apple/XorFunc.h"    /* Funciones XOR */
-=======
 #include "Apple/Screens.h"    /* Pantallas */
-
-#include <land1.h> /*image No 1*/
-#include <board.h> /*board showing image No 1 */
-
-void landscape1();
-void board();
->>>>>>> origin/KristelBranch
+#include "Apple/XorFunc.h"    /* Funciones XOR */
 
 /* Funciones Prototipo */
 
@@ -43,6 +35,8 @@ int huge HighLevelXGA(void);
 
 /* Funciones Para Mostrar las Pantallas */
 void Presentacion(void);
+void Frame(void);
+void Landscape1(void);
 
 /* Funciones Para Figuras en Modo XOR */
 void DrawCursor(ControlEje x, ControlEje y);
@@ -74,15 +68,10 @@ void main(void)
 
     InitGraph();
 
-<<<<<<< HEAD
     /*Presentacion();*/
 
-=======
-    Presentacion();
+    Frame();
 
-    
-/*
->>>>>>> origin/KristelBranch
     do {
         DrawCursor(x, y);
 
@@ -94,8 +83,6 @@ void main(void)
             case IZQUIERDA: --x;     break;
             case MAS:       ++largo; break;
             case MENOS:     --largo; break;
-
-<<<<<<< HEAD
             case X:
                 _xorMode = (_xorMode) ? False : True ;
             break;
@@ -104,16 +91,4 @@ void main(void)
         }
 
     } while (True);
-=======
-    } while (False);*/
-
-    getch();
-
-
-   board();
-  
-
-
-
->>>>>>> origin/KristelBranch
 }
