@@ -1,3 +1,4 @@
+
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
@@ -52,7 +53,8 @@ void Mouse(void)
 {
     mver();
     mlimit(1,1,getmaxx()+1,getmaxy()+1,1);
-    do {
+
+	do {
 		gotoxy(1,1) , printf("X=%3d\nY=%3d", mxpos(1), mypos(1));
         putpixel(mxpos(1), mypos(1), 15);
     } while(!kbhit());
@@ -91,4 +93,4 @@ void main(void)
         }
 
     } while (True);
-}
+}

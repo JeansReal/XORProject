@@ -99,11 +99,49 @@ void Frame(void)
 
     /* Restaurar */
     Relleno(Solido,36);
-    bar(0,41,50,707);
+    bar(0,40,50,707);
 
     /* Parte centro */
-    Relleno(Solido,20);
+    Relleno(Solido,15);
     bar(50,40,900,707);
+
+
+    /*Botones de Eleccion de Figura*/
+    Relleno(Solido,20);
+    bar(900,40,1020,173);/*Boton Linea*/
+    bar(900,173,1020,308);/*Boton Rectangulo*/
+    bar(900,308,1020,441);/*Boton Circulo*/
+    bar(900,441,1020,574);/*Boton Elipse*/
+    bar(900,574,1020,707);/*Boton Poligono*/
+	
+	/*Botones de Barra de Modificacion*/
+	bar(100,720,400,755);/*Boton de seleccion de las imagenes*/
+	bar(450,720,550,755);/*Boton de Seleccion de modos*/
+	bar(600,720,850,755);/*Boton de Modificacion de las figuras*/
+
+    
+    /*Borde Botones*/
+    Linea(Continua, Gruesa, 0);
+    rectangle(900,40,1020,173);/*Boton */
+    rectangle(900,173,1020,308);/*Boton2*/
+    rectangle(900,308,1020,441);/*Boton3*/
+    rectangle(900,441,1020,574);/*Boton4*/
+    rectangle(900,574,1020,707);/*Boton5*/
+
+    /*Enunciados*/
+	settextstyle(5,0,0);
+	outtextxy(120,710,"Imagen de Fondo");
+	outtextxy(460,710,"Modo");
+	outtextxy(620,710,"Figura de Hule");
+	
+	/*Borde Botones Enunciados*/
+	Linea(Continua, Gruesa, 0);
+	rectangle(100,720,400,755);
+	rectangle(450,720,550,755);
+	rectangle(600,720,850,755);
+	
+
+
 }
 
 /*First landscape*/
