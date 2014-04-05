@@ -32,6 +32,7 @@
 void InitGraph(void);
 int huge HighLevelXGA(void);
 
+
 /* Funciones Para Mostrar las Pantallas */
 void Presentacion(void);
 /* Funcion Para Animar Controles */
@@ -69,7 +70,8 @@ void main(void)
     do {
         DrawCursor(x, y);
 
-        if (_activeShape != -1)
+        /* Si Una Figura fue Seleccionada la Pinta */
+        if (_activeShape != NONE)
             switch (_activeShape)
             {
                 case Line:      DrawLine(x, y, largo);                break;
@@ -79,8 +81,9 @@ void main(void)
                 case Polygon:   DrawTriangle(x, y, largo);            break;
             }
 
+        /* Movimiento de Los Ejes */
         Tecla = getch();
-        switch(Tecla)
+        switch (Tecla)
         {
             case ARRIBA:    y-=5;     break;
             case ABAJO:     y+=5;     break;
@@ -97,28 +100,18 @@ void main(void)
                 if (_activeShape != NONE) /* Si Hay una Figura Seleccionada */
                     _activeShape = NONE;
                 else {
-                    _activeShape = FiguraSeleccionada(x, y);
+                    _activeShape = SelectedShape(x, y);
 
                     if (_activeShape != NONE)   /* Si Seleccion Algo, Centrar Cursor */
                         x = 475 , y = 373 ;
                 }
             break;
 
-            case ESC:    exit(0);
+            case ESC:
+            case 97:    exit(0);
         }
 
-        /* Si el Cursor esta en la seccion de figuras, verificar en cual boton esta! */
-        if (x >= 900 && x <= getmaxx())
-            if (y >= 40 && y <= 173)
-                DrawButton(900, 40, 1020, 173, True);
-            else if (y >= 174 && y <= 308)
-                DrawButton(900, 173, 1020, 308, True);
-            else if (y >= 309 && y <= 441)
-                DrawButton(900, 308, 1020, 441, True);
-            else if (y >= 442 && y <= 574)
-                DrawButton(900, 441, 1020, 574, True);
-            else if (y >= 575 && y <= 707)
-                DrawButton(900, 574, 1020, 707, True);
+        _activeButton = SelectedButton(x, y);
 
     } while (True);
     /* closegraph(); */
