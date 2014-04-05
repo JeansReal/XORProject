@@ -87,46 +87,68 @@ void Presentacion(void)
 }
 
 /* Funcion de Reforzamiento para el Marco, lo Divide por Partes para poder animarlo! */
-void DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status)
+enum ActiveButton DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum ActiveButton btnId)
 {
     Relleno(Solido, btnStyle[Status].bkColor);
     Linea(Continua, btnStyle[Status].lineStyle, btnStyle[Status].lineColor);
 
     bar(x1, y1, x2, y2) , rectangle(x1, y1, x2, y2) ;
+
+    setcolor(btnStyle[Status].lblColor);
+    settextstyle(5, 0, 0);
+
+    /* Dibujos y Etiquetas Representativas de las Figuras */
+    switch (btnId)
+    {
+        case btnLine:
+            line(910,100,1010,60);
+            outtextxy(925, 100, "Linea");
+        break;
+
+        case btnRec:
+            rectangle(910,200,1010,266);
+            settextstyle(5, 0, 3);
+            outtextxy(910, 265, "Rectangulo");
+        break;
+
+        case btnCircle:
+            circle(960,357,33);
+            outtextxy(920, 385, "Circulo");
+        break;
+
+        case btnEllipse:
+            ellipse(960,480,0,360,50,25);
+            outtextxy(920, 515, "Ellipse");
+        break;
+
+        case btnPolygon:
+            moveto(910,660) , lineto(960,580) , lineto(1010,660) , lineto(910,660) ;
+            outtextxy(905, 655, "Poligono");
+        break;
+    }
+
+    return btnId;
 }
 
 /* Funcion que Realiza Animaciones de Botones */
 enum ActiveButton SelectedButton(ControlEje x, ControlEje y)
 {
-   /* Si el Cursor esta en la seccion de figuras, verifica en cual boton esta */
+    enum ActiveButton onHover = NONE;
+
+   /* Si el Cursor esta encima de algun boton */
     if (x >= 900 && x <= getmaxx())
         if (y >= 40 && y <= 173)
-        {
-            DrawButton(900, 40, 1020, 173, True);
-            return btnLine;
-        }
+            onHover = DrawButton(900, 40, 1020, 173, True, btnLine);
         else if (y >= 174 && y <= 308)
-        {
-            DrawButton(900, 173, 1020, 308, True);
-            return btnRec;
-        }
+            onHover = DrawButton(900, 173, 1020, 308, True, btnRec);
         else if (y >= 309 && y <= 441)
-        {
-            DrawButton(900, 308, 1020, 441, True);
-            return btnCircle;
-        }
+            onHover = DrawButton(900, 308, 1020, 441, True, btnCircle);
         else if (y >= 442 && y <= 574)
-        {
-            DrawButton(900, 441, 1020, 574, True);
-            return btnEllipse;
-        }
+            onHover = DrawButton(900, 441, 1020, 574, True, btnEllipse);
         else if (y >= 575 && y <= 707)
-        {
-            DrawButton(900, 574, 1020, 707, True);
-            return btnPolygon;
-        }
+            onHover = DrawButton(900, 574, 1020, 707, True, btnPolygon);
 
-    return NONE;
+    return onHover;
 }
 
 /* Funcion que Retorna la Figura Seleccionada*/
@@ -136,27 +158,27 @@ enum ActiveShape SelectedShape(ControlEje x, ControlEje y)
     if (x >= 900 && x <= getmaxx())
         if (y >= 40 && y <= 173)
         {
-            DrawButton(900, 40, 1020, 173, False);
+            DrawButton(900, 40, 1020, 173, False, Line);
             return Line;
         }
         else if (y >= 174 && y <= 308)
         {
-            DrawButton(900, 173, 1020, 308, False);
+            DrawButton(900, 173, 1020, 308, False, Rectangle);
             return Rectangle;
         }
         else if (y >= 309 && y <= 441)
         {
-            DrawButton(900, 308, 1020, 441, False);
+            DrawButton(900, 308, 1020, 441, False, Circle);
             return Circle;
         }
         else if (y >= 442 && y <= 574)
         {
-            DrawButton(900, 441, 1020, 574, False);
+            DrawButton(900, 441, 1020, 574, False, Ellipse);
             return Ellipse;
         }
         else if (y >= 575 && y <= 707)
         {
-            DrawButton(900, 574, 1020, 707, False);
+            DrawButton(900, 574, 1020, 707, False, Polygon);
             return Polygon;
         }
 
@@ -166,32 +188,29 @@ enum ActiveShape SelectedShape(ControlEje x, ControlEje y)
 /* Funcion que Contiene el Marco Principal */
 void Frame(void)
 {
-    Relleno(Solido,23);
+    Relleno(Solido, 23);
 
-    /* Parte Derecha */
-    bar(900,40,getmaxx()+1,getmaxy()+1);
-    /* Parte Arriba */
-    bar(0,0,getmaxx()+1,40);
-    /* Parte Abajo */
-    bar(0,708,getmaxx()+1,getmaxy()+1);
+    bar(900,40,getmaxx()+1,getmaxy()+1);    /* Parte Derecha */
+    bar(0,0,getmaxx()+1,40);                /* Parte Arriba */
+    bar(0,708,getmaxx()+1,getmaxy()+1);     /* Parte Abajo */
 
     /* Restaurar */
     Relleno(Solido,36);
     bar(0,40,50,707);
 
-    /* Parte centro */
+    /* Parte Central */
     Relleno(Solido,15);
     bar(50,40,900,707);
 
     /*Botones de Eleccion de Figura*/
-    Relleno(Solido,20);
-    bar(900,40,1020,173); /*Boton Linea*/
-    bar(900,173,1020,308);/*Boton Rectangulo*/
-    bar(900,308,1020,441);/*Boton Circulo*/
-    bar(900,441,1020,574);/*Boton Elipse*/
-    bar(900,574,1020,707);/*Boton Poligono*/
+    DrawButton(900, 40,  1020, 173, False, btnLine);
+    DrawButton(900, 173, 1020, 308, False, btnRec);
+    DrawButton(900, 308, 1020, 441, False, btnCircle);
+    DrawButton(900, 441, 1020, 574, False, btnEllipse);
+    DrawButton(900, 574, 1020, 707, False, btnPolygon);
 	
 	/*Botones de Barra de Modificacion*/
+    Relleno(Solido,20);
 	bar(100,720,400,755);/*Boton de seleccion de las imagenes*/
 	bar(450,720,550,755);/*Boton de Seleccion de modos*/
 	bar(600,720,850,755);/*Boton de Modificacion de las figuras*/
@@ -199,36 +218,17 @@ void Frame(void)
     /*Exit and Clean*/
     bar(0,0,15,15);
 
-    /*Borde Botones Laterales*/
+    /* Borde Botones Inferiores */
     Linea(Continua, Gruesa, 0);
-    rectangle(900,40,1020,173); /*Boton1*/
-    rectangle(900,173,1020,308);/*Boton2*/
-    rectangle(900,308,1020,441);/*Boton3*/
-    rectangle(900,441,1020,574);/*Boton4*/
-    rectangle(900,574,1020,707);/*Boton5*/
-
-	/*Borde Botones Inferiores*/
 	rectangle(100,720,400,755);
 	rectangle(450,720,550,755);
 	rectangle(600,720,850,755);
 
-    /* Figuras Representativas */
-    Linea(Continua, Fina, 15);
-    line(910,60,1010,60);
-    rectangle(910,200,1010,266);
-    circle(960,357,33);
-    ellipse(960,480,0,360,50,25);
-    moveto(910,660) , lineto(960,580) , lineto(1010,660) , lineto(910,660) ;
-
     /*Enunciados*/
-    setcolor(0);
-    settextstyle(5,0,0);
-
-    outtextxy(925,100,"Linea");
-
-    outtextxy(120,710,"Imagen de Fondo");
-    outtextxy(460,710,"Modo");
-    outtextxy(620,710,"Figura de Hule");
+    settextstyle(5, 0, 0);
+    outtextxy(120, 710, "Imagen de Fondo");
+    outtextxy(460, 710, "Modo");
+    outtextxy(620, 710, "Figura de Hule");
 }
 
 void Landscape1(void)

@@ -31,12 +31,10 @@
 /* Funciones Para El Modo Grafico */
 void InitGraph(void);
 int huge HighLevelXGA(void);
-
-
 /* Funciones Para Mostrar las Pantallas */
 void Presentacion(void);
 /* Funcion Para Animar Controles */
-void DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status);
+enum ActiveButton DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum ActiveButton btnId);
 /* Funcion Que Anima el Boton Seleccionado */
 enum ActiveButton SelectedButton(ControlEje x, ControlEje y);
 /* Funcion Que Calcula Figura Seleccionada */
@@ -92,7 +90,7 @@ void main(void)
             case MAS:       largo+=5; break;
             case MENOS:     largo-=5; break;
 
-            case X:
+            case TAB:
                 _xorMode = (_xorMode) ? False : True ;
             break;
 
@@ -111,7 +109,7 @@ void main(void)
             case 97:    exit(0);
         }
 
-        _activeButton = SelectedButton(x, y);
+        _hoverButton = SelectedButton(x, y);
 
     } while (True);
     /* closegraph(); */
