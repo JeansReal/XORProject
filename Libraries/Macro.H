@@ -3,6 +3,7 @@
 /* Definicion de Constantes y Macros */
 #define EXIT_SUCCESS    0
 #define EXIT_FAILURE    1
+#define NONE			-1
 /* Dirrecionales */
 #define ARRIBA      72
 #define ABAJO       80

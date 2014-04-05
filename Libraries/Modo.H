@@ -8,7 +8,8 @@ typedef char* String;
 /* Enumeraciones Para Control de Funciones y Validaciones */
 enum Boolean { False, True };
 
-enum Button { btnLine, btnRec, btnCircle, btnEllipse, btnPolygon } _ActiveButton = -1;
+enum ActiveButton { btnLine, btnRec, btnCircle, btnEllipse, btnPolygon } _activeButton = NONE;
+enum ActiveShape { Line, Rectangle, Circle, Ellipse, Polygon } _activeShape = NONE;
 
 /* Enumeracion Para el Macro Linea>> Que Representa Funcion setlinestyle(Estilo,Trama,Grosor) */
 enum Estilos_De_Linea { Continua, Punteada, Centrada, Guiones };
@@ -26,24 +27,31 @@ enum Tramas_De_Relleno {
 };
 
 /* Estructura que Simula una Clase con Atributos Predeterminados para en Control de Estilo de los Botones */
-struct {
+struct ButtonStyle {
     Graph bkColor, lineColor;
     Graph lineStyle;
 } btnStyle[2] = {
         /* False */        /* True */
-    { 20, 0, Gruesa } , { 45, 42 , Fina }
+    { 20, 0, Gruesa } , { 44, 42 , Fina }
 };
 
 /* Estructura que Contiene Los Limites de Movimiento del Cursor cuando mueve una Figura*/
-struct LimitesDeMovimiento {
-    short x1, y1, x2, y2;
+struct CursorLimitMovement {
+    ControlEje x1, y1, x2, y2;
 } Limit[2] = {
         /* False */             /* True */
-    { 0, 0, 1024, 768 } , { 70, 420, 70, 23 }
+    { 0, 0, 1024, 768 } , { 50, 40, 900, 707 }
+};
+
+struct Cursor {
+    ControlEje x, y;
+} Origin = {
+    200, 100
 };
 
 /* Variables Globales */
 Boolean _xorMode = True;    /* Variable Para Controlar Modo XOR */
+ /* Variable Para Pintar Figuras */
 FILE *DataBase = NULL;
 String DataBasePath = "C:/DataBase.txt";
 
