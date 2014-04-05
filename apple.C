@@ -21,8 +21,8 @@
 
 /* Libreria Personalizada */
 #include "Apple/Coor.h"       /* Coordenadas */
-#include "Apple/Modo.h"       /* Modo Grafico */
 #include "Apple/Macro.h"      /* Macros */
+#include "Apple/Modo.h"       /* Modo Grafico */
 #include "Apple/Screens.h"    /* Pantallas */
 #include "Apple/XorFunc.h"    /* Funciones XOR */
 
@@ -34,10 +34,15 @@ int huge HighLevelXGA(void);
 
 /* Funciones Para Mostrar las Pantallas */
 void Presentacion(void);
+/* Funcion Para Animar Controles */
+void DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status);
+/* Funcion Que Anima el Boton Seleccionado */
+enum ActiveButton SelectedButton(ControlEje x, ControlEje y);
+/* Funcion Que Calcula Figura Seleccionada */
+enum ActiveShape SelectedShape(ControlEje x, ControlEje y);
+/* Funcion Que Contiene el Marco de Trabajo */
 void Frame(void);
-
-void DrawButton();
-
+/* Funciones que Contienen Imagenes de Fondo */
 void Landscape1(void);
 
 /* Funciones Para Figuras en Modo XOR */
@@ -48,13 +53,11 @@ void DrawTriangle(ControlEje x, ControlEje y, unsigned short Perimetro);
 void DrawRectangle(ControlEje x, ControlEje y, unsigned short Perimetro);
 void DrawEllipse(ControlEje x, ControlEje y, short xRadio, short yRadio);
 
-void SaveStep(void);
-
 /** Cuerpo Principal **/
 void main(void)
 {
     Direccional Tecla = 0;
-    ControlEje x = 200, y = 100;
+    ControlEje x = 800, y = 100;
     unsigned short largo = 100;
 
     InitGraph();
@@ -66,7 +69,18 @@ void main(void)
     do {
         DrawCursor(x, y);
 
-        switch(Tecla = getch())
+        if (_activeShape != -1)
+            switch (_activeShape)
+            {
+                case Line:      DrawLine(x, y, largo);                break;
+                case Rectangle: DrawRectangle(x, y, largo);           break;
+                case Circle:    DrawCircle(x, y, largo);              break;
+                case Ellipse:   DrawEllipse(x, y, largo, largo/2);    break;
+                case Polygon:   DrawTriangle(x, y, largo);            break;
+            }
+
+        Tecla = getch();
+        switch(Tecla)
         {
             case ARRIBA:    y-=5;     break;
             case ABAJO:     y+=5;     break;
@@ -74,14 +88,23 @@ void main(void)
             case IZQUIERDA: x-=5;     break;
             case MAS:       largo+=5; break;
             case MENOS:     largo-=5; break;
+
             case X:
                 _xorMode = (_xorMode) ? False : True ;
             break;
+
             case ENTER:
-                _figActive = True;
+                if (_activeShape != NONE) /* Si Hay una Figura Seleccionada */
+                    _activeShape = NONE;
+                else {
+                    _activeShape = FiguraSeleccionada(x, y);
+
+                    if (_activeShape != NONE)   /* Si Seleccion Algo, Centrar Cursor */
+                        x = 475 , y = 373 ;
+                }
             break;
 
-            case 97:    exit(0);
+            case ESC:    exit(0);
         }
 
         /* Si el Cursor esta en la seccion de figuras, verificar en cual boton esta! */

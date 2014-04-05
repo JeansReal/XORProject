@@ -1,4 +1,4 @@
-/* Libreria que Contiene Esqueletos de Pantallas */
+/* Libreria que Contiene Esqueletos de Pantallas y Funciones de Animacion */
 
 void Presentacion(void)
 {
@@ -95,6 +95,47 @@ void DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Bool
     bar(x1, y1, x2, y2) , rectangle(x1, y1, x2, y2) ;
 }
 
+
+enum ActiveButton SelectedButton(ControlEje x, ControlEje y)
+{
+
+}
+
+/* Funcion que Retorna la Figura Seleccionada*/
+enum ActiveShape SelectedShape(ControlEje x, ControlEje y)
+{
+    /* Si EL Cursor esta dentro del boton de alguna figura y no hay figura activas */
+    if (x >= 900 && x <= getmaxx())
+        if (y >= 40 && y <= 173)
+        {
+            DrawButton(900, 40, 1020, 173, False);
+            return Line;
+        }
+        else if (y >= 174 && y <= 308)
+        {
+            DrawButton(900, 173, 1020, 308, False);
+            return Rectangle;
+        }
+        else if (y >= 309 && y <= 441)
+        {
+            DrawButton(900, 308, 1020, 441, False);
+            return Circle;
+        }
+        else if (y >= 442 && y <= 574)
+        {
+            DrawButton(900, 441, 1020, 574, False);
+            return Ellipse;
+        }
+        else if (y >= 575 && y <= 707)
+        {
+            DrawButton(900, 574, 1020, 707, False);
+            return Polygon;
+        }
+
+    return NONE;    /* Si Presiono Enter Sobre Otro Espacio */
+}
+
+/* Funcion que Contiene el Marco Principal */
 void Frame(void)
 {
     Relleno(Solido,23);
@@ -128,7 +169,9 @@ void Frame(void)
 	bar(450,720,550,755);/*Boton de Seleccion de modos*/
 	bar(600,720,850,755);/*Boton de Modificacion de las figuras*/
 
-    
+    /*Exit and clean*/
+    bar(0,0,10,10);
+
     /*Borde Botones*/
     Linea(Continua, Gruesa, 0);
     rectangle(900,40,1020,173);/*Boton1 */
@@ -137,25 +180,21 @@ void Frame(void)
     rectangle(900,441,1020,574);/*Boton4*/
     rectangle(900,574,1020,707);/*Boton5*/
 
-    /*Enunciados*/
-	settextstyle(5,0,0);
-	outtextxy(120,710,"Imagen de Fondo");
-	outtextxy(460,710,"Modo");
-	outtextxy(620,710,"Figura de Hule");
-	
 	/*Borde Botones Enunciados*/
 	Linea(Continua, Gruesa, 0);
 	rectangle(100,720,400,755);
 	rectangle(450,720,550,755);
 	rectangle(600,720,850,755);
-	
 
-
+    /*Enunciados*/
+    settextstyle(5,0,0);
+    outtextxy(120,710,"Imagen de Fondo");
+    outtextxy(460,710,"Modo");
+    outtextxy(620,710,"Figura de Hule");
 }
 
-/*First landscape*/
-
-void landscape1(void)   {
+void Landscape1(void)
+{
     /*Fondo de la imagen */
     Relleno(Solido,2);
     bar(876, 621,118, 129);
@@ -190,4 +229,4 @@ void landscape1(void)   {
     Fill(piedra3);
 
     getch();
-}
+}
