@@ -95,10 +95,38 @@ void DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Bool
     bar(x1, y1, x2, y2) , rectangle(x1, y1, x2, y2) ;
 }
 
-
+/* Funcion que Realiza Animaciones de Botones */
 enum ActiveButton SelectedButton(ControlEje x, ControlEje y)
 {
+   /* Si el Cursor esta en la seccion de figuras, verifica en cual boton esta */
+    if (x >= 900 && x <= getmaxx())
+        if (y >= 40 && y <= 173)
+        {
+            DrawButton(900, 40, 1020, 173, True);
+            return btnLine;
+        }
+        else if (y >= 174 && y <= 308)
+        {
+            DrawButton(900, 173, 1020, 308, True);
+            return btnRec;
+        }
+        else if (y >= 309 && y <= 441)
+        {
+            DrawButton(900, 308, 1020, 441, True);
+            return btnCircle;
+        }
+        else if (y >= 442 && y <= 574)
+        {
+            DrawButton(900, 441, 1020, 574, True);
+            return btnEllipse;
+        }
+        else if (y >= 575 && y <= 707)
+        {
+            DrawButton(900, 574, 1020, 707, True);
+            return btnPolygon;
+        }
 
+    return NONE;
 }
 
 /* Funcion que Retorna la Figura Seleccionada*/
@@ -155,10 +183,9 @@ void Frame(void)
     Relleno(Solido,15);
     bar(50,40,900,707);
 
-
     /*Botones de Eleccion de Figura*/
     Relleno(Solido,20);
-    bar(900,40,1020,173);/*Boton Linea*/
+    bar(900,40,1020,173); /*Boton Linea*/
     bar(900,173,1020,308);/*Boton Rectangulo*/
     bar(900,308,1020,441);/*Boton Circulo*/
     bar(900,441,1020,574);/*Boton Elipse*/
@@ -169,25 +196,36 @@ void Frame(void)
 	bar(450,720,550,755);/*Boton de Seleccion de modos*/
 	bar(600,720,850,755);/*Boton de Modificacion de las figuras*/
 
-    /*Exit and clean*/
-    bar(0,0,10,10);
+    /*Exit and Clean*/
+    bar(0,0,15,15);
 
-    /*Borde Botones*/
+    /*Borde Botones Laterales*/
     Linea(Continua, Gruesa, 0);
-    rectangle(900,40,1020,173);/*Boton1 */
+    rectangle(900,40,1020,173); /*Boton1*/
     rectangle(900,173,1020,308);/*Boton2*/
     rectangle(900,308,1020,441);/*Boton3*/
     rectangle(900,441,1020,574);/*Boton4*/
     rectangle(900,574,1020,707);/*Boton5*/
 
-	/*Borde Botones Enunciados*/
-	Linea(Continua, Gruesa, 0);
+	/*Borde Botones Inferiores*/
 	rectangle(100,720,400,755);
 	rectangle(450,720,550,755);
 	rectangle(600,720,850,755);
 
+    /* Figuras Representativas */
+    Linea(Continua, Fina, 15);
+    line(910,60,1010,60);
+    rectangle(910,200,1010,266);
+    circle(960,357,33);
+    ellipse(960,480,0,360,50,25);
+    moveto(910,660) , lineto(960,580) , lineto(1010,660) , lineto(910,660) ;
+
     /*Enunciados*/
+    setcolor(0);
     settextstyle(5,0,0);
+
+    outtextxy(925,100,"Linea");
+
     outtextxy(120,710,"Imagen de Fondo");
     outtextxy(460,710,"Modo");
     outtextxy(620,710,"Figura de Hule");
