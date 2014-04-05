@@ -10,7 +10,7 @@
 /* Cursor XOR */
 void DrawCursor(ControlEje x, ControlEje y)
 {
-    PixelXor(x, y);      /* Centro */
+    PixelXor(x, y);                   /* Centro */
     PixelXor(x, y - 10); /* Arriba */
     PixelXor(x + 10, y); /* Derecha */
     PixelXor(x, y + 10); /* Abajo */
@@ -28,7 +28,7 @@ void DrawCircle(ControlEje x, ControlEje y, short radio)
             dm += 2 * i + 1;
         else {
             radio--;
-            /* dm += (2 * i) - (2 * radio); Calculo Rapido, Perdida de Precision en Valores */
+            /* dm += (2 * i) - (2 * radio);    Calculo Rapido, Perdida de Precision en Valores */
             dm += 2 * (i - radio) + 1;      /* Calculo Algo lento, Mejoria De Precision Considerable */
         }
 
@@ -138,4 +138,4 @@ void DrawEllipse(ControlEje x, ControlEje y, short xRadio, short yRadio)
         PixelXor(x + xRadio, y - yRadio);
         PixelXor(x - xRadio, y - yRadio);
     }
-}
+}

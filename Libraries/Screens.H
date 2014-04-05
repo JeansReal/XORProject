@@ -86,6 +86,15 @@ void Presentacion(void)
     } while (!kbhit()); /* Use a flag to stop iterations*/
 }
 
+/* Funcion de Reforzamiento para el Marco, lo Divide por Partes para poder animarlo! */
+void DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status)
+{
+    Relleno(Solido, btnStyle[Status].bkColor);
+    Linea(Continua, btnStyle[Status].lineStyle, btnStyle[Status].lineColor);
+
+    bar(x1, y1, x2, y2) , rectangle(x1, y1, x2, y2) ;
+}
+
 void Frame(void)
 {
     Relleno(Solido,23);
@@ -122,7 +131,7 @@ void Frame(void)
     
     /*Borde Botones*/
     Linea(Continua, Gruesa, 0);
-    rectangle(900,40,1020,173);/*Boton */
+    rectangle(900,40,1020,173);/*Boton1 */
     rectangle(900,173,1020,308);/*Boton2*/
     rectangle(900,308,1020,441);/*Boton3*/
     rectangle(900,441,1020,574);/*Boton4*/
