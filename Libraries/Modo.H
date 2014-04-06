@@ -28,21 +28,19 @@ enum Tramas_De_Relleno {
 
 /* Estructura que Simula una Clase con Atributos Predeterminados para en Control de Estilo de los Botones */
 struct ButtonsStyle {
-    Graph bkColor, lineColor;
-    Graph lblColor, lineWidth, lineStyle;
+    Graph bkColor, lineColor, lblColor;
 } btnFigStyle[2] = {
-    { 20, 0, 0, Gruesa, Continua} , { 40, 47, 15, Fina, Guiones }
+    { 20, 0, 0 } , { 54, 40, 15 }
 }, btnMenuStyle[2] = {
-    { 21, 0, 0, Gruesa, Continua } , { 40, 47, 15, Fina, Guiones }
+    { 21, 0, 15 } , { 40, 47, 104 }
 }, btnRestoreStyle[2] = {
-    { 36, 0, 0, Gruesa, Continua } , {0,0,0,0,0}
+    { 36, 0, 0 } , { 15, 40, 47 }
 };
 
 /* Estructura que Contiene Los Limites de Movimiento del Cursor cuando mueve una Figura*/
 struct CursorLimitMovement {
     ControlEje x1, y1, x2, y2;
 } Limit[2] = {
-        /* False */             /* True */
     { 0, 0, 1024, 768 } , { 50, 40, 900, 707 }
 };
 

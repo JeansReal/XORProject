@@ -108,7 +108,7 @@ int third_drop[18] = {
 };
 
 
-/*First landscape(imagen) para el profe que no sabe inglish :) */
+/*First landscape*/
 
 int fondo[82] = {
  782, 421,782, 403, 779, 388,772, 368,

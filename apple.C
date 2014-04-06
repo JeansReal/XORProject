@@ -36,7 +36,7 @@ void Presentacion(void);
 /* Funcion Para Animar Controles */
 enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId);
 /* Funcion Que Anima un Boton */
-enum Button ButtonEvents(Boolean Activate, enum Button btnId);
+enum Button ButtonEvents(Boolean Active, enum Button btnId);
 /* Funcion que Retorna Funcion Animado */
 enum Button HoverButton(ControlEje x, ControlEje y);
 /* Funcion Que Contiene el Marco de Trabajo */
@@ -111,7 +111,7 @@ void main(void)
         /*if (x >= 890)*/
 		   _hoverButton = HoverButton(x,y);
 
-        
+
 
     } while (True);
 }
