@@ -19,9 +19,6 @@
 
 /* Macros Para Funcion XOR */
 
-/* Macro que Retorna el Color XOR de la Posicion */
-#define ColorXor(x, y)  Color ^ getpixel(x, y)      /* Refactorizando para Optimizar Velocidad */
-
 /* Macro Para Pintar Pixel en XOR */            /* Refactorizando Para Obtener Mas Velocidad */
 #define PixelXor(x, y)  (_xorMode) ? putpixel(x, y, Color ^ getpixel(x, y)) : putpixel(x, y, Color) ;
 

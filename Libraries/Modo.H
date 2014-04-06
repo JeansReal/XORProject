@@ -8,7 +8,7 @@ typedef char* String;
 /* Enumeraciones Para Control de Funciones y Validaciones */
 enum Boolean { False, True };
 
-enum ActiveButton { btnLine, btnRec, btnCircle, btnEllipse, btnPolygon } _hoverButton = NONE;
+enum Button { btnLine, btnRec, btnCircle, btnEllipse, btnPolygon } _hoverButton = NONE;
 enum ActiveShape { Line, Rectangle, Circle, Ellipse, Polygon } _activeShape = NONE;
 
 /* Enumeracion Para el Macro Linea>> Que Representa Funcion setlinestyle(Estilo,Trama,Grosor) */
