@@ -89,15 +89,37 @@ void Presentacion(void)
 /* Funcion de Reforzamiento para el Marco, lo Divide por Partes para poder animarlo! */
 enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId)
 {
-    Relleno(Solido, btnStyle[Status].bkColor);
-    Linea(Continua, btnStyle[Status].lineStyle, btnStyle[Status].lineColor);
+    struct ButtonsStyle *btnStyle = NULL;
 
+    /* Selecciona el Estilo del Boton */
+    switch (btnId)
+    {
+        case btnLine:       case btnRec:
+        case btnCircle:     case btnEllipse:    case btnPolygon:
+            btnStyle = btnFigStyle;
+        break;
+
+        case btnImages:     case btnXor:        case btnHule:
+            btnStyle = btnMenuStyle;
+        break;
+
+        case btnRestore:
+            btnStyle = btnRestoreStyle;
+        break;
+    }
+
+    /* Definiendo Estilo para Marco de Boton */
+    Relleno(Solido, btnStyle[Status].bkColor);
+    Linea(btnStyle[Status].lineStyle, btnStyle[Status].lineWidth, btnStyle[Status].lineColor);
     bar(x1, y1, x2, y2) , rectangle(x1, y1, x2, y2) ;
 
-    setcolor(btnStyle[Status].lblColor);
-    settextstyle(5, 0, 0);
+    /* Definiendo Estilo para Enunciado del Boton */
+    Linea(Continua, btnStyle[Status].lineWidth, btnStyle[Status].lblColor);
 
-    /* Dibujos y Etiquetas Representativas de las Figuras */
+    (btnId == btnRestore) ? settextstyle(1, 1, 5) :
+    (btnId == btnRec)     ? settextstyle(5, 0, 3) : settextstyle(5, 0, 0) ;
+
+    /* Define los Dibujos y Etiquetas de los Botones */
     switch (btnId)
     {
         case btnLine:
@@ -107,7 +129,6 @@ enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y
 
         case btnRec:
             rectangle(910,200,1010,266);
-            settextstyle(5, 0, 3);
             outtextxy(910, 265, "Rectangulo");
         break;
 
@@ -124,6 +145,22 @@ enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y
         case btnPolygon:
             moveto(910,660) , lineto(960,580) , lineto(1010,660) , lineto(910,660) ;
             outtextxy(905, 655, "Poligono");
+        break;
+
+        case btnRestore:
+            outtextxy(0, 170, "R e s t a u r a r");
+        break;
+
+        case btnImages:
+            outtextxy(120, 710, "Imagen de Fondo");
+        break;
+
+        case btnXor:
+            outtextxy(460, 710, "Modo");
+        break;
+
+        case btnHule:
+            outtextxy(620, 710, "Figura de Hule");
         break;
     }
 
@@ -150,7 +187,7 @@ enum Button HoverButton(ControlEje x, ControlEje y)
     enum Button static onHover = NONE, onChange = NONE;
 
     /* Si el Cursor esta sobre uno de los botones y el boton esta desactivado */
-    if (x >= 900 && x <= 1024)
+    if (x >= 900 && x <= 1024 && y >= 40 && y <= 707)
         (y >= 40  && y <= 173 && onHover != btnLine)    ? onHover = ButtonEvents(True, btnLine) :
         (y >= 174 && y <= 308 && onHover != btnRec)     ? onHover = ButtonEvents(True, btnRec) :
         (y >= 309 && y <= 441 && onHover != btnCircle)  ? onHover = ButtonEvents(True, btnCircle) :
@@ -173,18 +210,10 @@ enum Button HoverButton(ControlEje x, ControlEje y)
 void Frame(void)
 {
     Relleno(Solido, 23);
+    bar(0, 0, 1024, 768);    /* Fondo Refactorizado */
 
-    bar(900,40,getmaxx()+1,getmaxy()+1);    /* Parte Derecha */
-    bar(0,0,getmaxx()+1,40);                /* Parte Arriba */
-    bar(0,708,getmaxx()+1,getmaxy()+1);     /* Parte Abajo */
-
-    /* Restaurar */
-    Relleno(Solido,36);
-    bar(0,40,50,707);
-
-    /* Parte Central */
-    Relleno(Solido,15);
-    bar(50,40,900,707);
+    /* Boton Restaurar */
+    DrawButton(3, 40, 50, 707, False, btnRestore);
 
     /*Botones de Eleccion de Figura*/
     DrawButton(900, 40,  1020, 173, False, btnLine);
@@ -194,25 +223,16 @@ void Frame(void)
     DrawButton(900, 574, 1020, 707, False, btnPolygon);
 	
 	/*Botones de Barra de Modificacion*/
-    Relleno(Solido,20);
-	bar(100,720,400,755);/*Boton de seleccion de las imagenes*/
-	bar(450,720,550,755);/*Boton de Seleccion de modos*/
-	bar(600,720,850,755);/*Boton de Modificacion de las figuras*/
+    DrawButton(100, 720, 400, 755, False, btnImages);
+	DrawButton(450, 720, 550, 755, False, btnXor);
+	DrawButton(600, 720, 850, 755, False, btnHule);
 
     /*Exit and Clean*/
     bar(0,0,15,15);
 
-    /* Borde Botones Inferiores */
-    Linea(Continua, Gruesa, 0);
-	rectangle(100,720,400,755);
-	rectangle(450,720,550,755);
-	rectangle(600,720,850,755);
-
-    /*Enunciados*/
-    settextstyle(5, 0, 0);
-    outtextxy(120, 710, "Imagen de Fondo");
-    outtextxy(460, 710, "Modo");
-    outtextxy(620, 710, "Figura de Hule");
+    /* Parte Central */
+    Relleno(Solido,15);
+    bar(50,40,900,707) , rectangle(50,40,900,707) ;
 }
 
 void Landscape1(void)

@@ -35,9 +35,9 @@ int huge HighLevelXGA(void);
 void Presentacion(void);
 /* Funcion Para Animar Controles */
 enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId);
-/* Funcion Que Calcula Figura Seleccionada */
+/* Funcion Que Anima un Boton */
 enum Button ButtonEvents(Boolean Activate, enum Button btnId);
-/* Funcion Que Anima el Boton Seleccionado */
+/* Funcion que Retorna Funcion Animado */
 enum Button HoverButton(ControlEje x, ControlEje y);
 /* Funcion Que Contiene el Marco de Trabajo */
 void Frame(void);
@@ -108,8 +108,10 @@ void main(void)
         }
 
         /* Si el Cursor esta Cerca de los botones */
-        if (x >= 890)
+        /*if (x >= 890)*/
 		   _hoverButton = HoverButton(x,y);
+
+        
 
     } while (True);
 }
