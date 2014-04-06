@@ -34,11 +34,11 @@ int huge HighLevelXGA(void);
 /* Funciones Para Mostrar las Pantallas */
 void Presentacion(void);
 /* Funcion Para Animar Controles */
-enum ActiveButton DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum ActiveButton btnId);
-/* Funcion Que Anima el Boton Seleccionado */
-enum ActiveButton SelectedButton(ControlEje x, ControlEje y);
+enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId);
 /* Funcion Que Calcula Figura Seleccionada */
-enum ActiveShape SelectedShape(ControlEje x, ControlEje y);
+enum Button ButtonEvents(Boolean Activate, enum Button btnId);
+/* Funcion Que Anima el Boton Seleccionado */
+enum Button HoverButton(ControlEje x, ControlEje y);
 /* Funcion Que Contiene el Marco de Trabajo */
 void Frame(void);
 /* Funciones que Contienen Imagenes de Fondo */
@@ -95,24 +95,23 @@ void main(void)
             break;
 
             case ENTER:
-                if (_activeShape != NONE) /* Si Hay una Figura Seleccionada */
-                    _activeShape = NONE;
-                else {
-                    _activeShape = SelectedShape(x, y);
-
-                    if (_activeShape != NONE)   /* Si Seleccion Algo, Centrar Cursor */
-                        x = 475 , y = 373 ;
+                if (_activeShape != NONE)       /* Si hay una Figura Activa */
+                    _activeShape = _hoverButton = NONE;
+                else if (_hoverButton != NONE)  /* Si Hay una Figura Seleccionada */
+                {
+                    _activeShape = ButtonEvents(False, _hoverButton);   /* Desactivar el Boton y Activar la Figura */
+                    x = 475 , y = 373 ;
                 }
             break;
 
-            case ESC:
-            case 97:    exit(0);
+            case ESC: closegraph(); exit(0);
         }
 
-        _hoverButton = SelectedButton(x, y);
+        /* Si el Cursor esta Cerca de los botones */
+        if (x >= 890)
+		   _hoverButton = HoverButton(x,y);
 
     } while (True);
-    /* closegraph(); */
 }
 
 /* Funcion que Guarda en un Fichero una Accion */

@@ -87,7 +87,7 @@ void Presentacion(void)
 }
 
 /* Funcion de Reforzamiento para el Marco, lo Divide por Partes para poder animarlo! */
-enum ActiveButton DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum ActiveButton btnId)
+enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId)
 {
     Relleno(Solido, btnStyle[Status].bkColor);
     Linea(Continua, btnStyle[Status].lineStyle, btnStyle[Status].lineColor);
@@ -130,59 +130,43 @@ enum ActiveButton DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, Contro
     return btnId;
 }
 
-/* Funcion que Realiza Animaciones de Botones */
-enum ActiveButton SelectedButton(ControlEje x, ControlEje y)
+/* Funcion que Retorna el Evento del Boton */
+enum Button ButtonEvents(Boolean Activate, enum Button btnId)
 {
-    enum ActiveButton onHover = NONE;
-
-   /* Si el Cursor esta encima de algun boton */
-    if (x >= 900 && x <= getmaxx())
-        if (y >= 40 && y <= 173)
-            onHover = DrawButton(900, 40, 1020, 173, True, btnLine);
-        else if (y >= 174 && y <= 308)
-            onHover = DrawButton(900, 173, 1020, 308, True, btnRec);
-        else if (y >= 309 && y <= 441)
-            onHover = DrawButton(900, 308, 1020, 441, True, btnCircle);
-        else if (y >= 442 && y <= 574)
-            onHover = DrawButton(900, 441, 1020, 574, True, btnEllipse);
-        else if (y >= 575 && y <= 707)
-            onHover = DrawButton(900, 574, 1020, 707, True, btnPolygon);
-
-    return onHover;
+    switch (btnId)
+    {
+        case btnLine:    return DrawButton(900, 40, 1020, 173, Activate, btnLine);
+        case btnRec:     return DrawButton(900, 173, 1020, 308, Activate, btnRec);
+        case btnCircle:  return DrawButton(900, 308, 1020, 441, Activate, btnCircle);
+        case btnEllipse: return DrawButton(900, 441, 1020, 574, Activate, btnEllipse);
+        case btnPolygon: return DrawButton(900, 574, 1020, 707, Activate, btnPolygon);
+        default:         return NONE;
+    }
 }
 
-/* Funcion que Retorna la Figura Seleccionada*/
-enum ActiveShape SelectedShape(ControlEje x, ControlEje y)
+/* Funcion que Realiza Animaciones de Botones */
+enum Button HoverButton(ControlEje x, ControlEje y)
 {
-    /* Si EL Cursor esta dentro del boton de alguna figura y no hay figura activas */
-    if (x >= 900 && x <= getmaxx())
-        if (y >= 40 && y <= 173)
-        {
-            DrawButton(900, 40, 1020, 173, False, Line);
-            return Line;
-        }
-        else if (y >= 174 && y <= 308)
-        {
-            DrawButton(900, 173, 1020, 308, False, Rectangle);
-            return Rectangle;
-        }
-        else if (y >= 309 && y <= 441)
-        {
-            DrawButton(900, 308, 1020, 441, False, Circle);
-            return Circle;
-        }
-        else if (y >= 442 && y <= 574)
-        {
-            DrawButton(900, 441, 1020, 574, False, Ellipse);
-            return Ellipse;
-        }
-        else if (y >= 575 && y <= 707)
-        {
-            DrawButton(900, 574, 1020, 707, False, Polygon);
-            return Polygon;
-        }
+    enum Button static onHover = NONE, onChange = NONE;
 
-    return NONE;    /* Si Presiono Enter Sobre Otro Espacio */
+    /* Si el Cursor esta sobre uno de los botones y el boton esta desactivado */
+    if (x >= 900 && x <= 1024)
+        (y >= 40  && y <= 173 && onHover != btnLine)    ? onHover = ButtonEvents(True, btnLine) :
+        (y >= 174 && y <= 308 && onHover != btnRec)     ? onHover = ButtonEvents(True, btnRec) :
+        (y >= 309 && y <= 441 && onHover != btnCircle)  ? onHover = ButtonEvents(True, btnCircle) :
+        (y >= 442 && y <= 574 && onHover != btnEllipse) ? onHover = ButtonEvents(True, btnEllipse) :
+        (y >= 575 && y <= 707 && onHover != btnPolygon) ? onHover = ButtonEvents(True, btnPolygon) : NONE ;
+    else
+        onHover = NONE;
+
+    /* Si se Selecciona otro Boton */
+    if (onHover != onChange)
+    {
+        ButtonEvents(False, onChange);
+        onChange = onHover;
+    }
+
+    return onHover;
 }
 
 /* Funcion que Contiene el Marco Principal */
