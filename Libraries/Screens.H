@@ -107,6 +107,14 @@ enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y
         case btnRestore:
             btnStyle = btnRestoreStyle;
         break;
+
+        case btnExit:
+            btnStyle = btnExitStyle;
+        break;
+
+        case btnClean:
+            btnStyle = btnCleanStyle;
+        break;
     }
 
     (Status)  ? btnLineWidth = Fina   , btnLineStyle = Guiones  :
@@ -115,14 +123,15 @@ enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y
     /* Definiendo Estilo para Marco de Boton */
     Relleno(Solido, btnStyle[Status].bkColor);
     Linea(btnLineStyle, btnLineWidth, btnStyle[Status].lineColor);
-
     bar(x1, y1, x2, y2) , rectangle(x1, y1, x2, y2) ;
+
 
     /* Define Estilo, Dibujo y Etiquetas del Boton */
     Linea(Continua, btnLineWidth, btnStyle[Status].lblColor);
 
     (btnId == btnRestore) ? settextstyle(1, 1, 5) :
-    (btnId == btnRec)     ? settextstyle(5, 0, 3) : settextstyle(5, 0, 0) ;
+    (btnId == btnRec)     ? settextstyle(5, 0, 3) :
+    (btnId == btnExit || btnId == btnClean)    ? settextstyle(1, 0, 1) : settextstyle(5, 0, 0) ;
 
     switch (btnId)
     {
@@ -166,6 +175,14 @@ enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y
         case btnHule:
             outtextxy(620, 710, "Figura de Hule");
         break;
+
+        case btnExit:
+            outtextxy(6, 0, "X");
+        break;
+
+        case btnClean:
+            outtextxy(1008, 0, "L");
+        break;
     }
 
     return btnId;
@@ -185,6 +202,8 @@ enum Button ButtonEvents(Boolean Active, enum Button btnId)
         case btnImages:  return DrawButton(100, 720,  400, 755, Active, btnImages);
         case btnXor:     return DrawButton(450, 720,  550, 755, Active, btnXor);
         case btnHule:    return DrawButton(600, 720,  850, 755, Active, btnHule);
+        case btnExit:    return DrawButton(  1,   1,   20,  22, Active, btnExit);
+        case btnClean:   return DrawButton(1002,  1, 1022,  22, Active, btnClean);
         default:         return NONE;
     }
 }
@@ -195,19 +214,28 @@ enum Button HoverButton(ControlEje x, ControlEje y)
     enum Button static onHover = NONE, onChange = NONE;
 
     /* Si el Cursor esta sobre uno de los botones y el boton esta desactivado */
+
+    /* Botones Laterales Derechos */
     if (x >= 900 && x <= 1024 && y >= 40 && y <= 707)
         (y >= 40  && y <= 173 && onHover != btnLine)    ? onHover = ButtonEvents(True, btnLine)    :
         (y >= 174 && y <= 308 && onHover != btnRec)     ? onHover = ButtonEvents(True, btnRec)     :
         (y >= 309 && y <= 441 && onHover != btnCircle)  ? onHover = ButtonEvents(True, btnCircle)  :
         (y >= 442 && y <= 574 && onHover != btnEllipse) ? onHover = ButtonEvents(True, btnEllipse) :
         (y >= 575 && y <= 707 && onHover != btnPolygon) ? onHover = ButtonEvents(True, btnPolygon) : NONE ;
+    /* Botones Inferiores */
     else if (x >= 100 && x <= 850 && y >= 720 && y <= 755)
         (x >= 100 && x <= 400 && onHover != btnImages)  ? onHover = ButtonEvents(True, btnImages)  :
         (x >= 450 && x <= 550 && onHover != btnXor)     ? onHover = ButtonEvents(True, btnXor)     :
         (x >= 600 && x <= 850 && onHover != btnHule)    ? onHover = ButtonEvents(True, btnHule)    :
         (x >  400 && x <  450 || x > 550 && x < 600)    ? onHover = NONE                           : NONE ;
+    /* Boton Lateral Izquierdo */
     else if (x >= 3 && x <= 50 && y >= 40 && y <= 707)
         (onHover != btnRestore)                         ? onHover = ButtonEvents(True, btnRestore) : NONE ;
+    /* Botones Superiores */
+    else if (x >= 1 && x <= 1022 && y >= 1 && y <= 22)
+        (x >= 1    && x <= 20   && onHover != btnExit)  ? onHover = ButtonEvents(True, btnExit)    :
+        (x >= 1002 && x <= 1022 && onHover != btnClean) ? onHover = ButtonEvents(True, btnClean)   :
+        (x >  20   && x <  1002)                        ? onHover = NONE                           : NONE ;
     else
         onHover = NONE;
 
@@ -235,7 +263,7 @@ void Frame(void)
     bar(53, 41, 897, 707) , rectangle(50, 40, 900, 707) ;
 
     /*Botones de Eleccion de Figura*/
-    DrawButton(900, 40,  1020, 173, False, btnLine);
+    DrawButton(900,  40, 1020, 173, False, btnLine);
     DrawButton(900, 173, 1020, 308, False, btnRec);
     DrawButton(900, 308, 1020, 441, False, btnCircle);
     DrawButton(900, 441, 1020, 574, False, btnEllipse);
@@ -250,7 +278,8 @@ void Frame(void)
 	DrawButton(600, 720, 850, 755, False, btnHule);
 
     /*Exit and Clean*/
-    bar(0,0,15,15);
+    DrawButton(   1, 1,   20, 22, False, btnExit);
+    DrawButton(1002, 1, 1022, 22, False, btnClean);
 }
 
 void Landscape1(void)

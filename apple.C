@@ -98,13 +98,13 @@ void main(void)
             break;
 
             case ENTER:
-                DrawCursor(x, y);               /* Borra el Cursor */
-
-                if (IsOutsideWorkArea(x, y))    /* Si Esta Fuera del Area de Trabajo */
+                DrawCursor(x, y);                    /* Borra el Cursor */
+                if (_activeShape != NONE)            /* Si hay una Figura Activa */
+                    _activeShape = _hoverButton = NONE;
+                else if (IsOutsideWorkArea(x, y))    /* Si Esta Fuera del Area de Trabajo */
                 {
-                    switch (_hoverButton)       /* Si Esta Seleccionando Algun Boton */
+                    switch (_hoverButton)            /* Si Esta Seleccionando Algun Boton */
                     {
-                        /* Agregar FUnciones de menus despegables */
                         case btnExit:   closegraph() , exit(0) ;
                         case btnClean:  Relleno(Solido, 15); bar(53, 42, 897, 705); break;
                     }
@@ -115,13 +115,9 @@ void main(void)
                     _hoverButton = NONE;
                     x = 475 , y = 373 ;
                 }
-                else if (_activeShape != NONE)  /* Si hay una Figura Activa */
-                    _activeShape = _hoverButton = NONE;
             break;
 
             case ESC: exit(0);
-
-            /*default: DrawCursor(x, y); *//* Borra el Cursor */
         }
 
         /* Si el Cursor esta Fuera del Area de Trabajo */
