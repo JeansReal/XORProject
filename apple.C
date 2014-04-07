@@ -31,19 +31,21 @@
 /* Funciones Para El Modo Grafico */
 void InitGraph(void);
 int huge HighLevelXGA(void);
-/* Funciones Para Mostrar las Pantallas */
+
 void Presentacion(void);
-/* Funcion Para Animar Controles */
+/* Funcion Para Animar Controles(Botones) */
 enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId);
-/* Funcion Que Anima un Boton */
 enum Button ButtonEvents(Boolean Active, enum Button btnId);
-/* Funcion que Retorna Funcion Animado */
 enum Button HoverButton(ControlEje x, ControlEje y);
+
 /* Funcion Que Contiene el Marco de Trabajo */
 void Frame(void);
 /* Funciones que Contienen Imagenes de Fondo */
 void Landscape1(void);
 
+/* Funcion para Hablitar el Movimiento del Cursor */
+Boolean IsCursorLimit(ControlEje x, ControlEje y);
+Boolean IsOutsideWorkArea(ControlEje x, ControlEje y);
 /* Funciones Para Figuras en Modo XOR */
 void DrawCursor(ControlEje x, ControlEje y);
 void DrawCircle(ControlEje x, ControlEje y, short radio);
@@ -77,6 +79,7 @@ void main(void)
                 case Circle:    DrawCircle(x, y, largo);              break;
                 case Ellipse:   DrawEllipse(x, y, largo, largo/2);    break;
                 case Polygon:   DrawTriangle(x, y, largo);            break;
+                default:        _activeShape = NONE;
             }
 
         /* Movimiento de Los Ejes */
@@ -95,23 +98,35 @@ void main(void)
             break;
 
             case ENTER:
-                if (_activeShape != NONE)       /* Si hay una Figura Activa */
-                    _activeShape = _hoverButton = NONE;
-                else if (_hoverButton != NONE)  /* Si Hay una Figura Seleccionada */
+                DrawCursor(x, y);               /* Borra el Cursor */
+
+                if (IsOutsideWorkArea(x, y))    /* Si Esta Fuera del Area de Trabajo */
                 {
-                    _activeShape = ButtonEvents(False, _hoverButton);   /* Desactivar el Boton y Activar la Figura */
+                    switch (_hoverButton)       /* Si Esta Seleccionando Algun Boton */
+                    {
+                        /* Agregar FUnciones de menus despegables */
+                        case btnExit:   closegraph() , exit(0) ;
+                        case btnClean:  Relleno(Solido, 15); bar(53, 42, 897, 705); break;
+                    }
+                    
+                    /* Desactiva el Boton y Activa La Figura si alguna fue Seleccionada */
+                    _activeShape = ButtonEvents(False, _hoverButton);
+
+                    _hoverButton = NONE;
                     x = 475 , y = 373 ;
                 }
+                else if (_activeShape != NONE)  /* Si hay una Figura Activa */
+                    _activeShape = _hoverButton = NONE;
             break;
 
-            case ESC: closegraph(); exit(0);
+            case ESC: exit(0);
+
+            /*default: DrawCursor(x, y); *//* Borra el Cursor */
         }
 
-        /* Si el Cursor esta Cerca de los botones */
-        /*if (x >= 890)*/
-		   _hoverButton = HoverButton(x,y);
-
-
+        /* Si el Cursor esta Fuera del Area de Trabajo */
+        if (IsOutsideWorkArea(x, y))
+		   _hoverButton = HoverButton(x, y);
 
     } while (True);
 }
