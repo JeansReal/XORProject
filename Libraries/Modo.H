@@ -8,7 +8,7 @@ typedef char* String;
 /* Enumeraciones Para Control de Funciones y Validaciones */
 enum Boolean { False, True };
 
-enum Button { btnLine, btnRec, btnCircle, btnEllipse, btnPolygon, btnRestore, btnImages, btnXor, btnHule } _hoverButton = NONE;
+enum Button { btnLine, btnRec, btnCircle, btnEllipse, btnPolygon, btnRestore, btnImages, btnXor, btnHule, btnExit, btnClean } _hoverButton = NONE;
 enum ActiveShape { Line, Rectangle, Circle, Ellipse, Polygon } _activeShape = NONE;
 
 /* Enumeracion Para el Macro Linea>> Que Representa Funcion setlinestyle(Estilo,Trama,Grosor) */
@@ -35,6 +35,10 @@ struct ButtonsStyle {
     { 21, 0, 15 } , { 40, 47, 104 }
 }, btnRestoreStyle[2] = {
     { 36, 0, 0 } , { 15, 40, 47 }
+}, btnExitStyle[2] = {
+    { 20, 0, 40 } , { 41, 15, 47 }
+}, btnCleanStyle[2] = {
+    { 75, 0, 0 } , { 127, 42, 93 }
 };
 
 /* Estructura que Contiene Los Limites de Movimiento del Cursor cuando mueve una Figura*/

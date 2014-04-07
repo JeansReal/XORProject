@@ -31,7 +31,7 @@
 /* Funciones Para El Modo Grafico */
 void InitGraph(void);
 int huge HighLevelXGA(void);
-
+/* Funciones de la Interfaz Grafica */
 void Presentacion(void);
 /* Funcion Para Animar Controles(Botones) */
 enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId);
@@ -44,8 +44,10 @@ void Frame(void);
 void Landscape1(void);
 
 /* Funcion para Hablitar el Movimiento del Cursor */
-Boolean IsCursorLimit(ControlEje x, ControlEje y);
+Boolean CanXMove(ControlEje x);
+Boolean CanYMove(ControlEje y);
 Boolean IsOutsideWorkArea(ControlEje x, ControlEje y);
+
 /* Funciones Para Figuras en Modo XOR */
 void DrawCursor(ControlEje x, ControlEje y);
 void DrawCircle(ControlEje x, ControlEje y, short radio);
@@ -82,20 +84,16 @@ void main(void)
                 default:        _activeShape = NONE;
             }
 
-        /* Movimiento de Los Ejes */
+        /* Movimiento de Los Ejes, Manejador de Eventos */
         Tecla = getch();
         switch (Tecla)
         {
-            case ARRIBA:    y-=5;     break;
-            case ABAJO:     y+=5;     break;
-            case DERECHA:   x+=5;     break;
-            case IZQUIERDA: x-=5;     break;
+            case ARRIBA:    y-= (y > 0)    ? 5 : False ;     break;
+            case ABAJO:     y+= (y < 768)  ? 5 : False ;     break;
+            case DERECHA:   x+= (x < 1025) ? 5 : False ;     break;
+            case IZQUIERDA: x-= (x > 0)    ? 5 : False ;     break;
             case MAS:       largo+=5; break;
             case MENOS:     largo-=5; break;
-
-            case TAB:
-                _xorMode = (_xorMode) ? False : True ;
-            break;
 
             case ENTER:
                 DrawCursor(x, y);                    /* Borra el Cursor */
