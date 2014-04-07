@@ -86,6 +86,11 @@ void Presentacion(void)
     } while (!kbhit()); /* Use a flag to stop iterations*/
 }
 
+Boolean CanMoveRight(ControlEje x)
+{
+    
+}
+
 /* Funcion de Reforzamiento para el Marco, lo Divide por Partes para poder animarlo! */
 enum Button DrawButton(ControlEje x1, ControlEje y1, ControlEje x2, ControlEje y2, Boolean Status, enum Button btnId)
 {

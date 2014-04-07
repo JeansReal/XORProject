@@ -1,19 +1,6 @@
 /* Libreria que Contiene Funciones Gracias Para Figuras en Modo XOR */
 
 /* Midpoint Algorithm Applied to Generate Circle and Ellipse */
- 
-/* ToDo:
-    * Mejorar Nombres de Variables x=originX, y=originY, i=xMove, dm=Diameter....
-    * Cambiar Tipos de Datos en Parametros, Pero Antes Validar Todos los Argumentos
-*/
-
-Boolean IsCursorLimit(ControlEje x, ControlEje y)
-{
-    if (x <= 0 || x >= 1024)
-        return True;
-
-    return True;
-}
 
 /* Verifica si Esta Fuera del Marco de Trabajo */
 Boolean IsOutsideWorkArea(ControlEje x, ControlEje y)
