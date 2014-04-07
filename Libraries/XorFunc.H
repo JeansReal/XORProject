@@ -7,6 +7,23 @@
     * Cambiar Tipos de Datos en Parametros, Pero Antes Validar Todos los Argumentos
 */
 
+Boolean IsCursorLimit(ControlEje x, ControlEje y)
+{
+    if (x <= 0 || x >= 1024)
+        return True;
+
+    return True;
+}
+
+/* Verifica si Esta Fuera del Marco de Trabajo */
+Boolean IsOutsideWorkArea(ControlEje x, ControlEje y)
+{
+    if (x > 53 && x < 895 && y > 41 && y < 707)
+        return False;
+    else
+        return True;
+}
+
 /* Cursor XOR */
 void DrawCursor(ControlEje x, ControlEje y)
 {
