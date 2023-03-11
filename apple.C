@@ -1,11 +1,3 @@
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-
 /* No Incluir Librerias Mas de 1 Vez */
 #pragma once
 
